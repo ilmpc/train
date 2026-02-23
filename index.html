@@ -1,916 +1,1383 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="ru">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Программа тренировок - Марк</title>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
 
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
-            background: #fafafa;
-            min-height: 100vh;
-            padding: 20px 20px 120px;
-            color: #09090b;
-        }
+      body {
+        font-family:
+          -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu,
+          Cantarell, sans-serif;
+        background: #fafafa;
+        min-height: 100vh;
+        padding: 20px 20px 120px;
+        color: #09090b;
+      }
 
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            background: white;
-            border-radius: 12px;
-            border: 1px solid #e4e4e7;
-            overflow: hidden;
-        }
+      .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        background: white;
+        border-radius: 12px;
+        border: 1px solid #e4e4e7;
+        overflow: hidden;
+      }
 
+      header {
+        background: white;
+        border-bottom: 1px solid #e4e4e7;
+        padding: 40px 30px;
+        text-align: center;
+      }
+
+      header h1 {
+        font-size: 2.5em;
+        margin-bottom: 8px;
+        font-weight: 700;
+        color: #09090b;
+      }
+
+      header p {
+        font-size: 1.1em;
+        color: #71717a;
+      }
+
+      @media (max-width: 768px) {
         header {
-            background: white;
-            border-bottom: 1px solid #e4e4e7;
-            padding: 40px 30px;
-            text-align: center;
+          padding: 24px 20px;
         }
 
         header h1 {
-            font-size: 2.5em;
-            margin-bottom: 8px;
-            font-weight: 700;
-            color: #09090b;
+          font-size: 1.75em;
         }
 
         header p {
-            font-size: 1.1em;
-            color: #71717a;
-        }
-
-        @media (max-width: 768px) {
-            header {
-                padding: 24px 20px;
-            }
-
-            header h1 {
-                font-size: 1.75em;
-            }
-
-            header p {
-                font-size: 0.95em;
-            }
-
-            .legend {
-                padding: 16px;
-                margin: 16px;
-            }
-
-            .legend h3 {
-                font-size: 0.95em;
-            }
-
-            .legend-table td {
-                padding: 6px 0;
-                font-size: 0.9em;
-            }
-
-            .legend-table td:first-child {
-                width: 100px;
-            }
+          font-size: 0.95em;
         }
 
         .legend {
-            background: #fafafa;
-            padding: 20px;
-            margin: 20px;
-            border-radius: 8px;
-            border: 1px solid #e4e4e7;
+          padding: 16px;
+          margin: 16px;
         }
 
         .legend h3 {
-            color: #09090b;
-            margin-bottom: 12px;
-            font-size: 1.1em;
-            font-weight: 600;
-        }
-
-        .legend-table {
-            width: 100%;
-            border-collapse: collapse;
+          font-size: 0.95em;
         }
 
         .legend-table td {
-            padding: 8px 0;
-            border-bottom: 1px solid #e4e4e7;
-            font-size: 0.95em;
-        }
-
-        .legend-table tr:last-child td {
-            border-bottom: none;
+          padding: 6px 0;
+          font-size: 0.9em;
         }
 
         .legend-table td:first-child {
-            font-weight: 600;
-            color: #09090b;
-            width: 140px;
+          width: 100px;
         }
+      }
 
-        .legend-table td:last-child {
-            color: #71717a;
+      .legend {
+        background: #fafafa;
+        padding: 20px;
+        margin: 20px;
+        border-radius: 8px;
+        border: 1px solid #e4e4e7;
+      }
+
+      .legend h3 {
+        color: #09090b;
+        margin-bottom: 12px;
+        font-size: 1.1em;
+        font-weight: 600;
+      }
+
+      .legend-table {
+        width: 100%;
+        border-collapse: collapse;
+      }
+
+      .legend-table td {
+        padding: 8px 0;
+        border-bottom: 1px solid #e4e4e7;
+        font-size: 0.95em;
+      }
+
+      .legend-table tr:last-child td {
+        border-bottom: none;
+      }
+
+      .legend-table td:first-child {
+        font-weight: 600;
+        color: #09090b;
+        width: 140px;
+      }
+
+      .legend-table td:last-child {
+        color: #71717a;
+      }
+
+      .rest-widget {
+        position: fixed;
+        left: 16px;
+        right: 16px;
+        bottom: 16px;
+        display: grid;
+        grid-template-columns: auto 1fr auto;
+        align-items: center;
+        gap: 12px;
+        padding: 12px 14px;
+        background: rgba(255, 255, 255, 0.92);
+        border: 1px solid #e4e4e7;
+        border-radius: 16px;
+        box-shadow: 0 10px 30px rgba(15, 23, 42, 0.12);
+        backdrop-filter: blur(8px);
+        z-index: 10;
+      }
+
+      .rest-button,
+      .rest-reset {
+        border: none;
+        cursor: pointer;
+        font-weight: 700;
+        border-radius: 12px;
+        padding: 10px 14px;
+        min-width: 44px;
+        min-height: 44px;
+        transition:
+          transform 0.15s ease,
+          box-shadow 0.15s ease;
+      }
+
+      .rest-reset {
+        background: #f4f4f5;
+        color: #18181b;
+      }
+
+      .rest-button {
+        background: #18181b;
+        color: #fafafa;
+        font-size: 1.2em;
+        line-height: 1;
+      }
+
+      .rest-button:active,
+      .rest-reset:active {
+        transform: scale(0.97);
+      }
+
+      .rest-info {
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+        min-width: 0;
+        text-align: center;
+      }
+
+      .rest-count {
+        font-size: 1.1em;
+        font-weight: 700;
+        color: #09090b;
+      }
+
+      .rest-timer {
+        font-size: 0.9em;
+        color: #52525b;
+      }
+
+      .rest-timer.done {
+        color: #16a34a;
+        font-weight: 600;
+      }
+
+      .rest-flash {
+        position: fixed;
+        inset: 0;
+        background: rgba(22, 163, 74, 0.9);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 2.2em;
+        font-weight: 800;
+        color: #f8fafc;
+        letter-spacing: 0.5px;
+        opacity: 0;
+        pointer-events: none;
+        z-index: 20;
+      }
+
+      .rest-flash.show {
+        animation: flashDone 1s ease-out forwards;
+      }
+
+      @keyframes flashDone {
+        0% {
+          opacity: 0;
+          transform: scale(0.98);
+        }
+        10% {
+          opacity: 1;
+          transform: scale(1);
+        }
+        80% {
+          opacity: 1;
+        }
+        100% {
+          opacity: 0;
+        }
+      }
+
+      @media (max-width: 600px) {
+        body {
+          padding: 16px 16px 120px;
         }
 
         .rest-widget {
-            position: fixed;
-            left: 16px;
-            right: 16px;
-            bottom: 16px;
-            display: grid;
-            grid-template-columns: auto 1fr auto;
-            align-items: center;
-            gap: 12px;
-            padding: 12px 14px;
-            background: rgba(255, 255, 255, 0.92);
-            border: 1px solid #e4e4e7;
-            border-radius: 16px;
-            box-shadow: 0 10px 30px rgba(15, 23, 42, 0.12);
-            backdrop-filter: blur(8px);
-            z-index: 10;
-        }
-
-        .rest-button,
-        .rest-reset {
-            border: none;
-            cursor: pointer;
-            font-weight: 700;
-            border-radius: 12px;
-            padding: 10px 14px;
-            min-width: 44px;
-            min-height: 44px;
-            transition: transform 0.15s ease, box-shadow 0.15s ease;
-        }
-
-        .rest-reset {
-            background: #f4f4f5;
-            color: #18181b;
-        }
-
-        .rest-button {
-            background: #18181b;
-            color: #fafafa;
-            font-size: 1.2em;
-            line-height: 1;
-        }
-
-        .rest-button:active,
-        .rest-reset:active {
-            transform: scale(0.97);
-        }
-
-        .rest-info {
-            display: flex;
-            flex-direction: column;
-            gap: 4px;
-            min-width: 0;
-            text-align: center;
+          left: 12px;
+          right: 12px;
+          bottom: 12px;
+          padding: 10px 12px;
+          gap: 10px;
         }
 
         .rest-count {
-            font-size: 1.1em;
-            font-weight: 700;
-            color: #09090b;
+          font-size: 1em;
         }
 
         .rest-timer {
-            font-size: 0.9em;
-            color: #52525b;
+          font-size: 0.85em;
         }
-
-        .rest-timer.done {
-            color: #16a34a;
-            font-weight: 600;
-        }
-
-        .rest-flash {
-            position: fixed;
-            inset: 0;
-            background: rgba(22, 163, 74, 0.9);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 2.2em;
-            font-weight: 800;
-            color: #f8fafc;
-            letter-spacing: 0.5px;
-            opacity: 0;
-            pointer-events: none;
-            z-index: 20;
-        }
-
-        .rest-flash.show {
-            animation: flashDone 1s ease-out forwards;
-        }
-
-        @keyframes flashDone {
-            0% {
-                opacity: 0;
-                transform: scale(0.98);
-            }
-            10% {
-                opacity: 1;
-                transform: scale(1);
-            }
-            80% {
-                opacity: 1;
-            }
-            100% {
-                opacity: 0;
-            }
-        }
-
-        @media (max-width: 600px) {
-            body {
-                padding: 16px 16px 120px;
-            }
-
-            .rest-widget {
-                left: 12px;
-                right: 12px;
-                bottom: 12px;
-                padding: 10px 12px;
-                gap: 10px;
-            }
-
-            .rest-count {
-                font-size: 1em;
-            }
-
-            .rest-timer {
-                font-size: 0.85em;
-            }
-        }
+      }
     </style>
-</head>
-<body>
+  </head>
+  <body>
     <div class="container">
-        <workout-tabs></workout-tabs>
+      <workout-tabs></workout-tabs>
     </div>
 
     <div class="rest-widget" id="rest-widget">
-        <button class="rest-reset" id="rest-reset" type="button">Reset</button>
-        <div class="rest-info">
-            <div class="rest-count" id="rest-count">Reps: 0</div>
-            <div class="rest-timer" id="rest-timer">Rest 01:30</div>
-        </div>
-        <button class="rest-button" id="rest-plus" type="button">+</button>
+      <button class="rest-reset" id="rest-reset" type="button">Reset</button>
+      <div class="rest-info">
+        <div class="rest-count" id="rest-count">Reps: 0</div>
+        <div class="rest-timer" id="rest-timer">Rest 01:30</div>
+      </div>
+      <button class="rest-button" id="rest-plus" type="button">+</button>
     </div>
 
     <div class="rest-flash" id="rest-flash">Rest done</div>
 
     <template id="workout-tabs-template">
-        <style>
-            .tabs-container {
-                padding: 20px;
-            }
+      <style>
+        .tabs-container {
+          padding: 20px;
+        }
 
-            .tabs {
-                display: inline-flex;
-                gap: 4px;
-                margin-bottom: 24px;
-                padding: 4px;
-                background: #f4f4f5;
-                border-radius: 8px;
-                flex-wrap: wrap;
-            }
+        .tabs {
+          display: inline-flex;
+          gap: 4px;
+          margin-bottom: 24px;
+          padding: 4px;
+          background: #f4f4f5;
+          border-radius: 8px;
+          flex-wrap: wrap;
+        }
 
-            .tab {
-                padding: 10px 20px;
-                background: transparent;
-                border: none;
-                border-radius: 6px;
-                cursor: pointer;
-                font-size: 0.95em;
-                font-weight: 500;
-                color: #71717a;
-                transition: all 0.2s ease;
-            }
+        .tab {
+          padding: 10px 20px;
+          background: transparent;
+          border: none;
+          border-radius: 6px;
+          cursor: pointer;
+          font-size: 0.95em;
+          font-weight: 500;
+          color: #71717a;
+          transition: all 0.2s ease;
+        }
 
-            .tab:hover {
-                background: #e4e4e7;
-                color: #09090b;
-            }
+        .tab:hover {
+          background: #e4e4e7;
+          color: #09090b;
+        }
 
-            .tab.active {
-                background: white;
-                color: #09090b;
-                box-shadow: 0 1px 3px rgba(0,0,0,0.1);
-            }
+        .tab.active {
+          background: white;
+          color: #09090b;
+          box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        }
 
-            .tab-content {
-                display: none;
-            }
+        .tab-content {
+          display: none;
+        }
 
-            .tab-content.active {
-                display: block;
-                animation: fadeIn 0.2s ease;
-            }
+        .tab-content.active {
+          display: block;
+          animation: fadeIn 0.2s ease;
+        }
 
-            @keyframes fadeIn {
-                from { opacity: 0; }
-                to { opacity: 1; }
-            }
+        @keyframes fadeIn {
+          from {
+            opacity: 0;
+          }
+          to {
+            opacity: 1;
+          }
+        }
 
-            @media (max-width: 768px) {
-                .tabs-container {
-                    padding: 16px;
-                }
+        @media (max-width: 768px) {
+          .tabs-container {
+            padding: 16px;
+          }
 
-                .tabs {
-                    gap: 2px;
-                    padding: 2px;
-                    margin-bottom: 16px;
-                    overflow-x: auto;
-                    -webkit-overflow-scrolling: touch;
-                }
+          .tabs {
+            gap: 2px;
+            padding: 2px;
+            margin-bottom: 16px;
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+          }
 
-                .tab {
-                    padding: 8px 12px;
-                    font-size: 0.85em;
-                    white-space: nowrap;
-                }
-            }
-        </style>
-        <div class="tabs-container">
-            <div class="tabs" id="tabs-container"></div>
+          .tab {
+            padding: 8px 12px;
+            font-size: 0.85em;
+            white-space: nowrap;
+          }
+        }
+      </style>
+      <div class="tabs-container">
+        <div class="tabs" id="tabs-container"></div>
 
-            <div id="workout1" class="tab-content active">
-                <workout-detail workout-id="1"></workout-detail>
-            </div>
-
-            <div id="workout2" class="tab-content">
-                <workout-detail workout-id="2"></workout-detail>
-            </div>
-
-            <div id="workout3" class="tab-content">
-                <workout-detail workout-id="3"></workout-detail>
-            </div>
-
-            <div id="workout4" class="tab-content">
-                <workout-detail workout-id="4"></workout-detail>
-            </div>
-
-            <div id="workout5" class="tab-content">
-                <workout-detail workout-id="5"></workout-detail>
-            </div>
+        <div id="workout1" class="tab-content active">
+          <workout-detail workout-id="1"></workout-detail>
         </div>
+
+        <div id="workout2" class="tab-content">
+          <workout-detail workout-id="2"></workout-detail>
+        </div>
+
+        <div id="workout3" class="tab-content">
+          <workout-detail workout-id="3"></workout-detail>
+        </div>
+
+        <div id="workout4" class="tab-content">
+          <workout-detail workout-id="4"></workout-detail>
+        </div>
+
+        <div id="workout5" class="tab-content">
+          <workout-detail workout-id="5"></workout-detail>
+        </div>
+      </div>
     </template>
 
     <template id="workout-detail-template">
-        <style>
-            .workout {
-                background: white;
-            }
+      <style>
+        .workout {
+          background: white;
+        }
 
-            .workout-title {
-                font-size: 1.5em;
-                font-weight: 600;
-                margin-bottom: 20px;
-                color: #09090b;
-            }
+        .workout-title {
+          font-size: 1.5em;
+          font-weight: 600;
+          margin-bottom: 20px;
+          color: #09090b;
+        }
 
-            .info-card {
-                background: white;
-                padding: 16px 18px;
-                border-radius: 8px;
-                margin-bottom: 16px;
-                border: 1px solid #e4e4e7;
-            }
+        .info-card {
+          background: white;
+          padding: 16px 18px;
+          border-radius: 8px;
+          margin-bottom: 16px;
+          border: 1px solid #e4e4e7;
+        }
 
-            .info-card h3 {
-                color: #09090b;
-                margin-bottom: 8px;
-                font-size: 0.9em;
-                font-weight: 600;
-                text-transform: uppercase;
-                letter-spacing: 0.5px;
-            }
+        .info-card h3 {
+          color: #09090b;
+          margin-bottom: 8px;
+          font-size: 0.9em;
+          font-weight: 600;
+          text-transform: uppercase;
+          letter-spacing: 0.5px;
+        }
 
-            .info-card p {
-                color: #52525b;
-                font-size: 0.95em;
-                line-height: 1.6;
-            }
+        .info-card p {
+          color: #52525b;
+          font-size: 0.95em;
+          line-height: 1.6;
+        }
 
-            .exercises-section {
-                margin-top: 24px;
-            }
+        .exercises-section {
+          margin-top: 24px;
+        }
 
-            .section-title {
-                font-size: 0.9em;
-                font-weight: 600;
-                margin-bottom: 12px;
-                color: #71717a;
-                text-transform: uppercase;
-                letter-spacing: 0.5px;
-            }
+        .section-title {
+          font-size: 0.9em;
+          font-weight: 600;
+          margin-bottom: 12px;
+          color: #71717a;
+          text-transform: uppercase;
+          letter-spacing: 0.5px;
+        }
 
-            .exercises-list {
-                display: flex;
-                flex-direction: column;
-                gap: 8px;
-            }
+        .exercises-list {
+          display: flex;
+          flex-direction: column;
+          gap: 8px;
+        }
 
-            @media (max-width: 768px) {
-                .workout-title {
-                    font-size: 1.25em;
-                    margin-bottom: 16px;
-                }
+        @media (max-width: 768px) {
+          .workout-title {
+            font-size: 1.25em;
+            margin-bottom: 16px;
+          }
 
-                .info-card {
-                    padding: 12px 14px;
-                    margin-bottom: 12px;
-                }
+          .info-card {
+            padding: 12px 14px;
+            margin-bottom: 12px;
+          }
 
-                .info-card h3 {
-                    font-size: 0.85em;
-                    margin-bottom: 6px;
-                }
+          .info-card h3 {
+            font-size: 0.85em;
+            margin-bottom: 6px;
+          }
 
-                .info-card p {
-                    font-size: 0.9em;
-                }
+          .info-card p {
+            font-size: 0.9em;
+          }
 
-                .section-title {
-                    font-size: 0.8em;
-                    margin-bottom: 10px;
-                }
-            }
-        </style>
-        <div class="workout">
-            <div class="workout-title"></div>
-            <div class="info-card warmup-card">
-                <h3>Разминка</h3>
-                <p class="warmup-text"></p>
-            </div>
-            <div class="exercises-section">
-                <div class="section-title">Упражнения</div>
-                <div class="exercises-list"></div>
-            </div>
+          .section-title {
+            font-size: 0.8em;
+            margin-bottom: 10px;
+          }
+        }
+      </style>
+      <div class="workout">
+        <div class="workout-title"></div>
+        <div class="info-card warmup-card">
+          <h3>Разминка</h3>
+          <p class="warmup-text"></p>
         </div>
+        <div class="exercises-section">
+          <div class="section-title">Упражнения</div>
+          <div class="exercises-list"></div>
+        </div>
+      </div>
     </template>
 
     <template id="exercise-row-template">
-        <style>
-            .exercise-container {
-                margin-bottom: 8px;
-            }
+      <style>
+        .exercise-container {
+          margin-bottom: 8px;
+        }
 
-            .exercise-row {
-                display: flex;
-                justify-content: space-between;
-                align-items: center;
-                gap: 12px;
-                padding: 16px 18px;
-                background: white;
-                border-radius: 8px;
-                border: 1px solid #e4e4e7;
-                transition: all 0.2s ease;
-                cursor: pointer;
-                user-select: none;
-            }
+        .exercise-row {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          gap: 12px;
+          padding: 16px 18px;
+          background: white;
+          border-radius: 8px;
+          border: 1px solid #e4e4e7;
+          transition: all 0.2s ease;
+          cursor: pointer;
+          user-select: none;
+        }
 
-            .exercise-row:hover {
-                border-color: #d4d4d8;
-                box-shadow: 0 1px 3px rgba(0,0,0,0.1);
-            }
+        .exercise-row:hover {
+          border-color: #d4d4d8;
+          box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        }
 
-            .exercise-name {
-                font-weight: 500;
-                color: #09090b;
-                font-size: 0.95em;
-                flex: 1;
-            }
+        .exercise-name {
+          font-weight: 500;
+          color: #09090b;
+          font-size: 0.95em;
+          flex: 1;
+        }
 
-            .exercise-stats {
-                display: flex;
-                gap: 12px;
-                align-items: center;
-            }
+        .exercise-stats {
+          display: flex;
+          gap: 12px;
+          align-items: center;
+        }
 
-            .exercise-stat {
-                display: flex;
-                flex-direction: column;
-                align-items: center;
-                justify-content: center;
-                padding: 8px;
-                background: #fafafa;
-                border-radius: 6px;
-                border: 1px solid #e4e4e7;
-                min-width: 70px;
-            }
+        .exercise-stat {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          justify-content: center;
+          padding: 8px;
+          background: #fafafa;
+          border-radius: 6px;
+          border: 1px solid #e4e4e7;
+          min-width: 70px;
+        }
 
-            .stat-label {
-                font-size: 0.75em;
-                color: #71717a;
-                margin-bottom: 4px;
-                text-transform: uppercase;
-                letter-spacing: 0.5px;
-                font-weight: 500;
-            }
+        .stat-label {
+          font-size: 0.75em;
+          color: #71717a;
+          margin-bottom: 4px;
+          text-transform: uppercase;
+          letter-spacing: 0.5px;
+          font-weight: 500;
+        }
 
-            .stat-value {
-                font-size: 1.1em;
-                font-weight: 600;
-                color: #09090b;
-            }
+        .stat-value {
+          font-size: 1.1em;
+          font-weight: 600;
+          color: #09090b;
+        }
 
-            .exercise-notation {
-                font-weight: 600;
-                color: #09090b;
-                font-size: 0.95em;
-                min-width: 50px;
-                text-align: right;
-            }
+        .exercise-notation {
+          font-weight: 600;
+          color: #09090b;
+          font-size: 0.95em;
+          min-width: 50px;
+          text-align: right;
+        }
 
-            .exercise-description {
-                display: none;
-                grid-column: 1 / -1;
-                padding: 12px 18px;
-                background: #fafafa;
-                border-radius: 0 0 8px 8px;
-                border: 1px solid #e4e4e7;
-                border-top: none;
-                font-size: 0.95em;
-                color: #52525b;
-                line-height: 1.6;
-            }
+        .exercise-description {
+          display: none;
+          grid-column: 1 / -1;
+          padding: 12px 18px;
+          background: #fafafa;
+          border-radius: 0 0 8px 8px;
+          border: 1px solid #e4e4e7;
+          border-top: none;
+          font-size: 0.95em;
+          color: #52525b;
+          line-height: 1.6;
+        }
 
-            .exercise-description.open {
-                display: block;
-            }
+        .exercise-description.open {
+          display: block;
+        }
 
-            .description-content {
-                max-width: 100%;
-                word-wrap: break-word;
-            }
+        .description-content {
+          max-width: 100%;
+          word-wrap: break-word;
+        }
 
-            .exercise-image {
-                max-width: 100%;
-                height: auto;
-                margin-bottom: 12px;
-                border-radius: 6px;
-            }
+        .exercise-image {
+          max-width: 100%;
+          height: auto;
+          margin-bottom: 12px;
+          border-radius: 6px;
+        }
 
-            .exercise-technique {
-                color: #52525b;
-                font-size: 0.95em;
-                line-height: 1.6;
-            }
+        .exercise-technique {
+          color: #52525b;
+          font-size: 0.95em;
+          line-height: 1.6;
+          white-space: pre-line;
+        }
 
-            .exercise-technique strong {
-                color: #09090b;
-                font-weight: 600;
-            }
+        .exercise-technique strong {
+          color: #09090b;
+          font-weight: 600;
+        }
 
-            @media (max-width: 768px) {
-                .exercise-row {
-                    padding: 12px 14px;
-                }
+        @media (max-width: 768px) {
+          .exercise-row {
+            padding: 12px 14px;
+          }
 
-                .exercise-name {
-                    font-size: 0.9em;
-                }
+          .exercise-name {
+            font-size: 0.9em;
+          }
 
-                .exercise-notation {
-                    font-size: 0.9em;
-                }
+          .exercise-notation {
+            font-size: 0.9em;
+          }
 
-                .exercise-description {
-                    padding: 10px 12px;
-                    font-size: 0.9em;
-                }
-            }
-        </style>
-        <div class="exercise-container">
-            <div class="exercise-row">
-                <div class="exercise-name"></div>
-                <div class="exercise-notation"></div>
-            </div>
-            <div class="exercise-description">
-                <img class="exercise-image" />
-                <p class="exercise-technique"></p>
-            </div>
+          .exercise-description {
+            padding: 10px 12px;
+            font-size: 0.9em;
+          }
+        }
+      </style>
+      <div class="exercise-container">
+        <div class="exercise-row">
+          <div class="exercise-name"></div>
+          <div class="exercise-notation"></div>
         </div>
+        <div class="exercise-description">
+          <img class="exercise-image" />
+          <p class="exercise-technique"></p>
+        </div>
+      </div>
     </template>
 
     <script>
-        const workoutData = {
-            1: {
-                title: "#1 Ноги",
-                warmup: "Суставная гимнастика, приседания без веса 50 раз",
-                exercises: [
-                    { name: 'Выпады в ходьбе', sets: 5, reps: '20', img: 'assets/day1/выпады_в_ходьбе.jpg', description: 'Сделайте шаг вперед и опуститесь в выпад. Ключевой момент: переднее колено не выходит за носок. Спина ровная, корпус напряжен; можно слегка наклониться вперед, чтобы сильнее включить ягодицы. Держите равновесие и шагайте дальше. Основные мышцы: квадрицепсы, ягодицы, задняя поверхность бедра.' },
-                    { name: 'Приседания в сумо (гантель, гиря)', sets: 4, reps: '15', img: 'assets/day1/приседания_в_сумо_гантель_гиря.png', description: 'Широкая постановка ног, носки развернуты. Колени идут строго по линии носков, не заваливаются внутрь/наружу. Приседайте глубоко, спина ровная, таз уводите назад. Вверху колени не выпрямляйте полностью, оставляйте нагрузку. Основные мышцы: ягодицы, приводящие мышцы, квадрицепсы.' },
-                    { name: 'Приседания со штангой', sets: 5, reps: '15', img: 'assets/day1/приседания_со_штангой.jpg', description: 'В машине Смита поставьте стопы чуть вперед и разверните носки. Спина прямая, пресс напряжен, без прогиба в пояснице. Садитесь как на стул, таз уводится назад, колени двигаются по линии стоп. В верхней точке колени не «запирайте». Основные мышцы: ягодицы, квадрицепсы, задняя поверхность бедра, мышцы спины.' },
-                    { name: 'Румынская тяга', sets: 4, reps: '30 шагов', img: 'assets/day1/румынская_тяга.jpg', description: 'Делайте с гантелями 6–10 кг. Спина в нейтрали, без прогибов, взгляд вниз. Гантели идут строго по ногам. Движение — только таз назад, без «работы спиной». Опускайтесь до колен или чуть ниже при отсутствии дискомфорта. Вверху полностью не выпрямляйтесь, чтобы оставить нагрузку. Основные мышцы: задняя поверхность бедра, ягодицы, разгибатели спины.' },
-                    { name: 'Махи в сторону (медленно подконтрольно)', sets: 4, reps: '15', img: 'assets/day1/махи_в_сторону_медленно_подконтрольно.jpg', description: 'Поднимайте гантели только до уровня плеч, не выше. Локти слегка согнуты, движение идет как будто вас тянут за руку в сторону. Не поднимайте плечи к шее, корпус не раскачивайте. Медленно вверх и вниз. Основные мышцы: средняя дельтовидная мышца.' },
-                    { name: 'Жим плечами (сидя, стоя)', sets: 4, reps: '15', img: 'assets/day1/жим_плечами_сидя_стоя.jpg', description: 'Скамья под 90 градусов, спина полностью прижата. Две вариации: локти на одной линии с корпусом или чуть впереди. Кисти ровные, без перегиба. Опускайте ниже плеч и выжимайте к макушке, без участия шеи. Движение медленное и подконтрольное. Основные мышцы: дельтовидные, трицепсы.' },
-                    { name: 'Скручивания (складка) с ногами на опоре', sets: 3, reps: 20, img: 'assets/day1/выталкивания_таза_вверх_скручивания_корпуса_скручивания_таза.jpg', description: 'Лягте на спину, поясница прижата к полу. Ноги закиньте на скамью/мяч или заведите под скамью — как комфортнее. Руки за голову. Поднимайте только шею и верх корпуса, без подъема спины. В верхней точке фиксируйте паузу, затем опускайтесь и повторяйте. Основные мышцы: прямая мышца живота.' }
-                ]
+      const workoutData = {
+        1: {
+          title: "#1 Ноги",
+          warmup: "Суставная гимнастика, приседания без веса 50 раз",
+          exercises: [
+            {
+              name: "Выпады в ходьбе",
+              sets: 5,
+              reps: "20",
+              img: "assets/day1/выпады_в_ходьбе.jpg",
+              description:
+                "Сделайте шаг вперед и опуститесь в выпад. Ключевой момент: переднее колено не выходит за носок. Спина ровная, корпус напряжен; можно слегка наклониться вперед, чтобы сильнее включить ягодицы. Держите равновесие и шагайте дальше. Основные мышцы: квадрицепсы, ягодицы, задняя поверхность бедра.",
             },
-            2: {
-                title: "#2 Спина/плечи",
-                warmup: "Суставная гимнастика",
-                exercises: [
-                    { name: 'Тяга верхнего блока широким хватом к груди', sets: 5, reps: '15', img: 'assets/day2/тяга_верхнего_блока_широким_хватом_к_груди.jpg', description: 'Широкий хват (или две рукояти вместе). Грудь вверх, плечи опущены, шея расслаблена. Локти выводим вперед и тянем вниз до уровня подбородка. Ниже не опускаем, чтобы не забирать движение в бицепс. Вверху не «вывешиваемся», держим натяжение. Основные мышцы: широчайшие, ромбовидные, трапеции.' },
-                    { name: 'Тяга нижнего блока к поясу', sets: 4, reps: '15', img: 'assets/day2/тяга_нижнего_блока_к_поясу.jpg', description: 'Если упоров нет, сядьте на пол и упритесь ногой в стойку. Спина прямая, грудь открыта, колени согнуты. Чуть потянитесь вперед и затем тяните к поясу, сводя лопатки. Движение медленное, корпус почти неподвижен. Основные мышцы: широчайшие, ромбовидные, трапеции, бицепсы.' },
-                    { name: 'Пулловер в кроссовере', sets: 4, reps: '15', img: 'assets/day2/пулловер_в_кроссовере.jpg', description: 'Ноги чуть согнуты, спина наклонена вперед, без прогиба. Локти слегка согнуты, кисти лежат на рукояти. Тяните вниз до уровня нижней части груди/пояса и слегка сводите лопатки. Вверху оставляйте натяжение, не выпрямляйте руки полностью. Основные мышцы: широчайшие, зубчатые, мышцы спины.' },
-                    { name: 'Тяга штанги в наклоне к поясу, обратным хватом', sets: 4, reps: '15', img: 'assets/day2/тяга_штанги_в_наклоне_к_поясу_обратным_хватом.jpg', description: 'Если штанги нет, делаем с гантелями на наклонной скамье. Лягте животом на скамью, голова свисает вниз, руки с гантелями свободно висят. Тяните локти к ягодицам, сводите лопатки к центру спины. Внизу растягивайтесь полностью, без рывков. Основные мышцы: широчайшие, ромбовидные, задняя дельта, бицепсы.' },
-                    { name: 'Тяга верхнего блока широким параллельным хватом к груди', sets: 4, reps: '15', img: 'assets/day2/тяга_штанги_в_наклоне_к_поясу_обратным_хватом.jpg', description: 'Используйте широкую параллельную рукоять или две ручки. Локти направлены вперед, грудь вверх, плечи вниз. Тяните до уровня подбородка, без движения шеей. Вверху держите натяжение, руки полностью не выпрямляйте. Основные мышцы: широчайшие, ромбовидные, трапеции.' },
-                    { name: 'Разводка стоя в стороны (3 кг)', sets: 1, reps: '100 раз', img: 'assets/day1/махи_в_сторону_медленно_подконтрольно.jpg', description: 'Подъемы только до уровня плеч. Локти слегка согнуты, плечи не поднимаем к шее, корпус не раскачиваем. Задача — «залить» плечи кровью. Движение плавное, без рывков. Основные мышцы: средняя дельта.' },
-                    { name: 'Разводка стоя в стороны (лесенка 2-6 кг)', sets: 4, reps: '10 раз на каждый вес', img: 'assets/day1/махи_в_сторону_медленно_подконтрольно.jpg', description: 'Лесенка 2–6 кг по 10 повторений на каждый вес без паузы. Поднимаем до уровня плеч, локти мягкие, движение чистое. Не поднимаем гантели выше плеч и не включаем корпус. Основные мышцы: средняя дельта.' },
-                    { name: 'Разводка стоя в стороны + ротация рукой (гребки)', sets: 3, reps: '20', img: 'assets/day1/махи_в_сторону_медленно_подконтрольно.jpg', description: 'Разводка в стороны с мягкой ротацией рук, как «гребок». Руки разворачиваются в верхней точке, плечо «входит в сустав». Подъем только до уровня плеч, шея расслаблена. Основные мышцы: средняя и задняя дельта, ротаторы плеча.' },
-                    { name: 'Разводка сидя в наклоне на заднюю дельту', sets: 3, reps: '15', img: 'assets/day2/разводка_сидя_в_наклоне_на_заднюю_дельту.jpg', description: 'Сядьте на скамью, ноги почти прямые и вместе. Корпус опустите на бедра, голова вниз, шея расслаблена. Разводите гантели до уровня плеч, не выше, локти чуть согнуты. Внизу полностью растягивайтесь. Основные мышцы: задняя дельта, ромбовидные, трапеции.' }
-                ]
+            {
+              name: "Приседания в сумо (гантель, гиря)",
+              sets: 4,
+              reps: "15",
+              img: "assets/day1/приседания_в_сумо_гантель_гиря.png",
+              description:
+                "Широкая постановка ног, носки развернуты. Колени идут строго по линии носков, не заваливаются внутрь/наружу. Приседайте глубоко, спина ровная, таз уводите назад. Вверху колени не выпрямляйте полностью, оставляйте нагрузку. Основные мышцы: ягодицы, приводящие мышцы, квадрицепсы.",
             },
-            3: {
-                title: "#3 Грудь/руки",
-                warmup: "Суставная гимнастика",
-                exercises: [
-                    { name: 'Отжимания от пола', sets: 4, reps: '15', img: 'assets/day3/отжимания_от_пола.jpg', description: 'Займите положение лежа с прямым телом, руки чуть шире плеч. Напрягите мышцы кора, опустите туловище вниз, сгибая локти под углом примерно 90 градусов, пока грудь почти не коснется пола. Отталкивайтесь руками и вернитесь в исходное положение, полностью выпрямляя руки. Основные мышцы: грудные мышцы, трицепсы, передние дельтоиды, мышцы кора.' },
-                    { name: 'Жим под углом 45 градусов гантелями', sets: 4, reps: '15', img: 'assets/day3/жим_под_углом_45_градусов_гантелями.jpg', description: 'Скамья под 45 градусов. Локти развести в стороны и чуть вывести вперед, чтобы грудь тянулась, а не плечи. Опускайте локти ниже корпуса, почувствуйте растяжение груди, затем выжмите к центру груди. Не сводите локти к корпусу. Основные мышцы: верх груди, передняя дельта, трицепс.' },
-                    { name: 'Разводка лежа под углом 45 градусов с гантелями', sets: 3, reps: '20', img: 'assets/day3/разводка_лежа_под_углом_45_градусов_с_гантелями.jpg', description: 'Руки слегка согнуты в локтях. Медленно раскрывайте до ощущения растяжения в груди и возвращайте к центру. Локти держите разведенными, не «складывайте» руки к плечам. Движение плавное, без рывка. Основные мышцы: грудные, передняя дельта.' },
-                    { name: 'Жим лежа узким хватом', sets: 4, reps: '15', img: 'assets/day3/жим_лежа_узким_хватом.jpg', description: 'Хват уже плеч, кисти ровные. Локти прижаты к корпусу и смотрят прямо. Опускайте максимально вниз и выжимайте вверх, без разведения локтей. Основной акцент — трицепс. Основные мышцы: трицепсы, грудные.' },
-                    { name: 'Трицепс на блоке с канатом + французский жим лежа', sets: 3, reps: '20', img: 'assets/day3/трицепс_на_блоке_с_канатом_французский_жим_лежа.jpg', description: 'Трицепс на блоке: локти прижаты к корпусу, движение только в локте, опускаем и поднимаем медленно. Можно делать с канатом или прямой рукоятью. Вариации: локти чуть назад для сильного прожима или чуть вперед с наклоном корпуса. Французский жим лежа: лежа, локти у ушей, сгибаем/разгибаем только в локте, опускаем до уровня лба/за уши. Основные мышцы: трицепсы.' },
-                    { name: 'Бицепс молот с гантелями', sets: 3, reps: '15', img: 'assets/day3/бицепс_молот_с_гантелями.jpg', description: 'Нейтральный хват, как «молот». Работайте поочередно: подняли, прожали бицепс, медленно опустили до полного растяжения. Не торопитесь, локти держите рядом с корпусом. Основные мышцы: бицепс, брахиалис, предплечья.' },
-                    { name: 'Разгибания с гантелями стоя в наклоне на трицепс', sets: 3, reps: '20', img: 'assets/day3/разгибания_с_гантелями_стоя_в_наклоне_на_трицепс.jpg', description: 'Встаньте и наклонитесь вперед примерно на 45 градусов, ноги на ширине плеч, слегка согните колени. Спина должна быть параллельна полу или близка к этому. Гантель в одной руке, локоть согнут примерно на 90 градусов, плечо параллельно полу. На выдохе полностью разогните локоть, направляя гантель назад, пока рука не выпрямится полностью. На вдохе медленно верните гантель в исходное положение. Локоть остается в одном положении, движение только в локтевом суставе. Основные мышцы: трицепсы (особенно латеральная и медиальная головки).' },
-                    { name: 'Ножницы (поочередный подъем ног до 90°)', sets: 2, reps: 25, img: 'assets/day3/складочка_подъем_прямых_ног_скручивания_до_лопаток_ножницы.jpg', description: 'Лягте на спину, поясница прижата к полу, руки вдоль тела. Поочередно поднимайте прямую ногу до 90° к полу, вторую держите на весу и меняйте ноги в ритме «ножниц». Спину не отрывайте, движение контролируйте, шея расслаблена. Основные мышцы: нижняя часть пресса.' }
-                ],
+            {
+              name: "Приседания со штангой",
+              sets: 5,
+              reps: "15",
+              img: "assets/day1/приседания_со_штангой.jpg",
+              description:
+                "В машине Смита поставьте стопы чуть вперед и разверните носки. Спина прямая, пресс напряжен, без прогиба в пояснице. Садитесь как на стул, таз уводится назад, колени двигаются по линии стоп. В верхней точке колени не «запирайте». Основные мышцы: ягодицы, квадрицепсы, задняя поверхность бедра, мышцы спины.",
             },
-            4: {
-                title: "#4 Ноги/плечи",
-                warmup: "Суставная гимнастика, приседания без веса 50 раз",
-                exercises: [
-                    { name: 'Приседания с гантелью в узкой постановке ног', sets: 4, reps: '15', img: 'assets/day4/приседания_с_гантелью_в_узкой_постановке_ног.jpg', description: 'Поставьте ноги на ширину одной-двух ладоней друг от друга, носки направлены вперед или слегка врозь. Держите гантель перед грудью обеими руками или по одной в каждой руке. Спина прямая, корпус напряжен. Согните колени и опустите вес, сохраняя вертикальное положение туловища. Колени движутся стабильно вдоль носков. Основные мышцы: квадрицепсы, внешняя поверхность бедра, ягодицы.' },
-                    { name: 'Приседания фронтальные', sets: 5, reps: '15', img: 'assets/day4/приседания_фронтальные.jpg', description: 'Встаньте прямо, ноги на ширине плеч или чуть шире, носки развернуты наружу на 10-15 градусов. Штанга расположена на уровне верхней части груди, руки согнуты так, чтобы плечо было параллельно полу, локти смотрят вверх. Движение вниз начинается с сгибания в тазобедренных и коленных суставах. Спина сохраняется прямой, грудь расправлена, взгляд направлен вперед. Центр тяжести проходит через середину стопы. Основные мышцы: квадрицепсы, ягодицы, передние дельты.' },
-                    { name: 'Выпады с гантелями вперед с места', sets: 4, reps: '15', img: 'assets/day4/выпады_с_гантелями_вперед_с_места.jpg', description: 'Встаньте прямо, ноги на ширине таза, гантели в вытянутых руках по сторонам. На вдохе сделайте широкий шаг ногой вперед, согните оба колена под углом 90 градусов. Переднее колено находится над пяткой, заднее колено почти касается пола. Спина вертикальна с легким прогибом в пояснице, грудь поднята. На выдохе вернитесь в исходное положение. Основные мышцы: квадрицепсы, ягодицы, бицепсы бедра, мышцы кора.' },
-                    { name: 'Сисси-присед', sets: 4, reps: '15', img: 'assets/day4/сисси-присед.jpg', description: 'Встаньте на ноги на ширине плеч и оторвите пятки от пола, встав на носки. Одной рукой возьмитесь за опору (стойку, дверной косяк или машину Смита). Спина остается прямой, корпус отклоняется максимально назад. На вдохе начните сгибать колени, опускаясь вниз. Угол в коленях не должен быть менее 90 градусов. Основные мышцы: квадрицепсы (четырехглавая мышца бедра).' },
-                    { name: 'Махи прямо перед собой с гантелями (поочередно)', sets: 4, reps: '20', img: 'assets/day4/махи_прямо_перед_собой_с_гантелями_поочередно.jpg', description: 'Встаньте прямо, ноги на ширине плеч, гантели в руках, опущены вниз перед бедрами. Ладони могут быть направлены на бедра или нейтральным хватом. Локти слегка согнуты. На выдохе поднимите одну руку с гантелью вверх до положения, параллельного полу или чуть выше. Не сгибайте руку в локте, все движение в плечевом суставе. На вдохе опустите руку. Чередуйте руки. На вершине задержите снаряд на 1-2 секунды. Основные мышцы: передний пучок дельтовидной мышцы, верхняя часть груди.' },
-                    { name: 'Разводка стоя в стороны', sets: 4, reps: '20', img: 'assets/day1/махи_в_сторону_медленно_подконтрольно.jpg', description: 'Встаньте прямо, ноги на ширине плеч, прижмите локти к телу. Гантели в руках опущены вниз, ладони направлены внутрь (нейтральный хват). На выдохе поднимите гантели в стороны до уровня плеч, держа руки почти прямыми или слегка согнутыми в локтях. В верхней точке задержитесь на секунду. На вдохе медленно опустите гантели в исходное положение. Корпус остается неподвижным, не прогибайтесь назад. Основные мышцы: средний пучок дельтовидной мышцы, верхние боковые дельты.' },
-                    { name: 'Жим сидя с гантелями', sets: 4, reps: '15', img: 'assets/day1/жим_плечами_сидя_стоя.jpg', description: 'Сядьте на скамью с высокой спинкой, прижмите поясницу к спинке, создав небольшое естественное прогибание для защиты спины. Гантели держите в руках на уровне плеч, локти согнуты под углом близким к 90 градусам. На выдохе жимом поднимите гантели вертикально вверх, описывая легкую дугу. Гантели движутся в вертикальной плоскости. На вдохе медленно опустите гантели в исходное положение. Основные мышцы: передний и средний пучок дельтовидной мышцы, грудные мышцы, трицепсы.' },
-                    { name: 'Тяга Е-грифа к подбородку + махи с канатом перед собой в кроссовере', sets: 4, reps: '15', img: 'assets/day4/тяга_е-грифа_к_подбородку_махи_с_канатом_перед_собой_в_кроссовере.jpg', description: 'Возьмите EZ-гриф хватом сверху, хват немного уже ширины плеч, встаньте прямо, спина слегка прогнута в пояснице. Гриф лежит на бедрах. На выдохе поднимайте локти вверх и в стороны, тянув гриф вдоль тела от бедер к подбородку. Локти всегда должны смотреть в стороны. Задержитесь в верхней точке. На вдохе опустите гриф. После этого выполните махи с канатом перед собой в кроссовере, разводя руки и сводя их перед собой дугообразным движением. Основные мышцы: трапеции, средний пучок дельты, передние дельты, бицепсы.' },
-                    { name: 'Сведение рук через стороны перед собой', sets: 3, reps: '15', img: 'assets/day4/сведение_рук_через_стороны_перед_собой.jpg', description: 'Возьмите ручки кроссовера с верхних блоков обеими руками и встаньте посередине тренажера в положении выпада или с широкой постановкой ног. Корпус слегка наклонен вперед. Локти слегка согнуты и зафиксированы. На вдохе разводите руки через стороны по дуге до ощущения растяжения в груди. На выдохе сводите руки перед собой по дуге, сосредоточиваясь на сокращении грудных мышц. Делайте движение только за счет грудных мышц, плечи и руки минимально участвуют. Основные мышцы: грудные мышцы (большая и малая), передние дельты, трицепсы.' }
-                ]
+            {
+              name: "Румынская тяга",
+              sets: 4,
+              reps: "30 шагов",
+              img: "assets/day1/румынская_тяга.jpg",
+              description:
+                "Делайте с гантелями 6–10 кг. Спина в нейтрали, без прогибов, взгляд вниз. Гантели идут строго по ногам. Движение — только таз назад, без «работы спиной». Опускайтесь до колен или чуть ниже при отсутствии дискомфорта. Вверху полностью не выпрямляйтесь, чтобы оставить нагрузку. Основные мышцы: задняя поверхность бедра, ягодицы, разгибатели спины.",
             },
-            5: {
-                title: "#5 Спина/плечи",
-                warmup: "Суставная гимнастика",
-                exercises: [
-                    { name: 'Подтягивания', sets: 4, reps: '12', img: 'assets/day5/подтягивания.jpg', description: 'Повисните на турнике с полностью выпрямленными руками, хват сверху чуть шире плеч. Подтяните себя вверх, сгибая локти и отводя их в стороны, пока подбородок не поднимется выше турника. Сконцентрируйтесь на работе спины и лопаток, не полагаясь только на бицепсы. Медленно опуститесь в исходное положение, контролируя движение. Основные мышцы: широчайшие мышцы спины, бицепсы, средняя спина.' },
-                    { name: 'Тяга верхнего блока по одной руке', sets: 4, reps: '15', img: 'assets/day5/тяга_верхнего_блока_по_одной_руке.jpeg', description: 'Сядьте в тренажер и возьмитесь одной рукой за рукоятку верхнего блока над головой. Спина прямая, плечи расслаблены. Тяните рукоятку вниз к бедру, приводя локоть к туловищу и сводя лопатку. Контролируйте движение в верхней точке, почувствуйте растяжение широчайшей мышцы. Медленно вернитесь в исходное положение. Выполните все повторения на одну руку, затем повторите на другую. Основные мышцы: широчайшие мышцы спины, бицепсы, средняя спина.' },
-                    { name: 'Тяга нижнего блока параллельным широким хватом + тяга гантели в наклоне к поясу', sets: 4, reps: '15', img: 'assets/day2/тяга_нижнего_блока_к_поясу.jpg', description: 'Сядьте в тренажер, ноги на подставке, спина прямая. Возьмитесь за рукоятку параллельным хватом (ладони обращены друг к другу) на уровне груди. Тяните рукоятку к животу, отводя локти назад и сводя лопатки вместе. Задержитесь в точке максимального сокращения, затем медленно вернитесь в исходное положение, не расслабляя мышцы полностью. После выполнения всех повторений блочной тяги выполните тягу гантели в наклоне к поясу. Основные мышцы: широчайшие мышцы спины, трапеции, ромбовидные мышцы.' },
-                    { name: 'Наклоны со штангой', sets: 3, reps: '20', img: 'assets/day5/наклоны_со_штангой.jpg', description: 'Положите штангу на верхнюю часть спины, ноги на ширине плеч. Ядро напрягите, спину держите прямой. Наклоняйтесь вперед в бедрах, отводя ягодицы назад, пока торс не станет параллелен полу. Колени держите слегка согнутыми. Почувствуйте растяжение в задней части ног. Вернитесь в исходное положение, выпрямляя бедра и сжимая ягодицы. Движение медленное и контролируемое. Основные мышцы: выпрямители спины, ягодицы, бицепсы бедра.' },
-                    { name: 'Разводка в стороны + разводка в наклоне', sets: 3, reps: '20', img: 'assets/day5/разводка_в_стороны_разводка_в_наклоне.jpg', description: 'Встаньте прямо, в каждой руке по гантели, ладони повернуты к телу. Слегка согните локти и поднимайте гантели в стороны до уровня плеч, держа локти выше кистей. Задержитесь на мгновение в верхней точке, затем медленно опустите гантели. Выполнив все повторения разводки стоя, наклонитесь вперед параллельно полу и выполните разводку в наклоне для работы задней дельты, держа руки слегка согнутыми в локтях. Основные мышцы: средняя дельта, задняя дельта, трапеции.' },
-                    { name: 'Разводка в стороны на наклонной скамье 30 градусов', sets: 3, reps: '20', img: 'assets/day5/разводка_в_стороны_на_наклонной_скамье_30_градусов.jpg', description: 'Установите скамью под углом 30 градусов и лягте на нее грудью, головой выше ягодиц. Возьмите гантели нейтральным хватом (ладони обращены друг к другу), руки слегка согнуты в локтях, начальная позиция - гантели висят перед грудью. Поднимайте гантели в стороны и назад в широкой дуге, пока руки не станут параллельны полу. Сожмите задние дельты и верхнюю спину в верхней точке. Медленно вернитесь в исходное положение, контролируя движение. Основные мышцы: задняя дельта, средняя спина, ромбовидные мышцы.' },
-                ]
-            }
-        };
+            {
+              name: "Махи в сторону (медленно подконтрольно)",
+              sets: 4,
+              reps: "15",
+              img: "assets/day1/махи_в_сторону_медленно_подконтрольно.jpg",
+              description:
+                "Поднимайте гантели только до уровня плеч, не выше. Локти слегка согнуты, движение идет как будто вас тянут за руку в сторону. Не поднимайте плечи к шее, корпус не раскачивайте. Медленно вверх и вниз. Основные мышцы: средняя дельтовидная мышца.",
+            },
+            {
+              name: "Жим плечами (сидя, стоя)",
+              sets: 4,
+              reps: "15",
+              img: "assets/day1/жим_плечами_сидя_стоя.jpg",
+              description:
+                "Скамья под 90 градусов, спина полностью прижата. Две вариации: локти на одной линии с корпусом или чуть впереди. Кисти ровные, без перегиба. Опускайте ниже плеч и выжимайте к макушке, без участия шеи. Движение медленное и подконтрольное. Основные мышцы: дельтовидные, трицепсы.",
+            },
+            {
+              name: "Скручивания (складка) с ногами на опоре",
+              sets: 3,
+              reps: 20,
+              img: "assets/day1/выталкивания_таза_вверх_скручивания_корпуса_скручивания_таза.jpg",
+              description:
+                "Лягте на спину, поясница прижата к полу. Ноги закиньте на скамью/мяч или заведите под скамью — как комфортнее. Руки за голову. Поднимайте только шею и верх корпуса, без подъема спины. В верхней точке фиксируйте паузу, затем опускайтесь и повторяйте. Основные мышцы: прямая мышца живота.",
+            },
+          ],
+        },
+        2: {
+          title: "#2 Спина/плечи",
+          warmup: "Суставная гимнастика",
+          exercises: [
+            {
+              name: "Тяга верхнего блока широким хватом к груди",
+              sets: 5,
+              reps: "15",
+              img: "assets/day2/тяга_верхнего_блока_широким_хватом_к_груди.jpg",
+              description:
+                "Широкий хват (или две рукояти вместе). Грудь вверх, плечи опущены, шея расслаблена. Локти выводим вперед и тянем вниз до уровня подбородка. Ниже не опускаем, чтобы не забирать движение в бицепс. Вверху не «вывешиваемся», держим натяжение. Основные мышцы: широчайшие, ромбовидные, трапеции.",
+            },
+            {
+              name: "Тяга нижнего блока к поясу",
+              sets: 4,
+              reps: "15",
+              img: "assets/day2/тяга_нижнего_блока_к_поясу.jpg",
+              description:
+                "Если упоров нет, сядьте на пол и упритесь ногой в стойку. Спина прямая, грудь открыта, колени согнуты. Чуть потянитесь вперед и затем тяните к поясу, сводя лопатки. Движение медленное, корпус почти неподвижен. Основные мышцы: широчайшие, ромбовидные, трапеции, бицепсы.",
+            },
+            {
+              name: "Пулловер в кроссовере",
+              sets: 4,
+              reps: "15",
+              img: "assets/day2/пулловер_в_кроссовере.jpg",
+              description:
+                "Ноги чуть согнуты, спина наклонена вперед, без прогиба. Локти слегка согнуты, кисти лежат на рукояти. Тяните вниз до уровня нижней части груди/пояса и слегка сводите лопатки. Вверху оставляйте натяжение, не выпрямляйте руки полностью. Основные мышцы: широчайшие, зубчатые, мышцы спины.",
+            },
+            {
+              name: "Тяга штанги в наклоне к поясу, обратным хватом",
+              sets: 4,
+              reps: "15",
+              img: "assets/day2/тяга_штанги_в_наклоне_к_поясу_обратным_хватом.jpg",
+              description:
+                "Если штанги нет, делаем с гантелями на наклонной скамье. Лягте животом на скамью, голова свисает вниз, руки с гантелями свободно висят. Тяните локти к ягодицам, сводите лопатки к центру спины. Внизу растягивайтесь полностью, без рывков. Основные мышцы: широчайшие, ромбовидные, задняя дельта, бицепсы.",
+            },
+            {
+              name: "Тяга верхнего блока широким параллельным хватом к груди",
+              sets: 4,
+              reps: "15",
+              img: "assets/day2/тяга_штанги_в_наклоне_к_поясу_обратным_хватом.jpg",
+              description:
+                "Используйте широкую параллельную рукоять или две ручки. Локти направлены вперед, грудь вверх, плечи вниз. Тяните до уровня подбородка, без движения шеей. Вверху держите натяжение, руки полностью не выпрямляйте. Основные мышцы: широчайшие, ромбовидные, трапеции.",
+            },
+            {
+              name: "Разводка стоя в стороны (3 кг)",
+              sets: 1,
+              reps: "100 раз",
+              img: "assets/day1/махи_в_сторону_медленно_подконтрольно.jpg",
+              description:
+                "Подъемы только до уровня плеч. Локти слегка согнуты, плечи не поднимаем к шее, корпус не раскачиваем. Задача — «залить» плечи кровью. Движение плавное, без рывков. Основные мышцы: средняя дельта.",
+            },
+            {
+              name: "Разводка стоя в стороны (лесенка 2-6 кг)",
+              sets: 4,
+              reps: "10 раз на каждый вес",
+              img: "assets/day1/махи_в_сторону_медленно_подконтрольно.jpg",
+              description:
+                "Лесенка 2–6 кг по 10 повторений на каждый вес без паузы. Поднимаем до уровня плеч, локти мягкие, движение чистое. Не поднимаем гантели выше плеч и не включаем корпус. Основные мышцы: средняя дельта.",
+            },
+            {
+              name: "Разводка стоя в стороны",
+              sets: 3,
+              reps: "20",
+              img: "assets/day1/махи_в_сторону_медленно_подконтрольно.jpg",
+              description:
+                "Стойка ровная, корпус стабилен, локти слегка согнуты. Поднимайте гантели в стороны только до уровня плеч, без рывков и без подъема плеч к ушам. В верхней точке короткая пауза и плавное опускание вниз под контролем. Основные мышцы: средняя дельта.",
+            },
+            {
+              name: "Ротация рукой (гребки)",
+              sets: 3,
+              reps: "20",
+              img: "assets/day1/махи_в_сторону_медленно_подконтрольно.jpg",
+              description:
+                "Выполняйте движение с мягкой наружной ротацией в плечевом суставе, как короткий «гребок». Локти остаются слегка согнутыми, шея расслаблена, корпус не раскачивайте. Двигайтесь плавно, контролируя траекторию и положение плеча. Основные мышцы: задняя дельта, ротаторы плеча.",
+            },
+            {
+              name: "Разводка сидя в наклоне на заднюю дельту",
+              sets: 3,
+              reps: "15",
+              img: "assets/day2/разводка_сидя_в_наклоне_на_заднюю_дельту.jpg",
+              description:
+                "Сядьте на скамью, ноги почти прямые и вместе. Корпус опустите на бедра, голова вниз, шея расслаблена. Разводите гантели до уровня плеч, не выше, локти чуть согнуты. Внизу полностью растягивайтесь. Основные мышцы: задняя дельта, ромбовидные, трапеции.",
+            },
+          ],
+        },
+        3: {
+          title: "#3 Грудь/руки",
+          warmup: "Суставная гимнастика",
+          exercises: [
+            {
+              name: "Отжимания от пола",
+              sets: 4,
+              reps: "15",
+              img: "assets/day3/отжимания_от_пола.jpg",
+              description:
+                "Займите положение лежа с прямым телом, руки чуть шире плеч. Напрягите мышцы кора, опустите туловище вниз, сгибая локти под углом примерно 90 градусов, пока грудь почти не коснется пола. Отталкивайтесь руками и вернитесь в исходное положение, полностью выпрямляя руки. Основные мышцы: грудные мышцы, трицепсы, передние дельтоиды, мышцы кора.",
+            },
+            {
+              name: "Жим под углом 45 градусов гантелями",
+              sets: 4,
+              reps: "15",
+              img: "assets/day3/жим_под_углом_45_градусов_гантелями.jpg",
+              description:
+                "Скамья под 45 градусов. Локти развести в стороны и чуть вывести вперед, чтобы грудь тянулась, а не плечи. Опускайте локти ниже корпуса, почувствуйте растяжение груди, затем выжмите к центру груди. Не сводите локти к корпусу. Основные мышцы: верх груди, передняя дельта, трицепс.",
+            },
+            {
+              name: "Разводка лежа под углом 45 градусов с гантелями",
+              sets: 3,
+              reps: "20",
+              img: "assets/day3/разводка_лежа_под_углом_45_градусов_с_гантелями.jpg",
+              description:
+                "Руки слегка согнуты в локтях. Медленно раскрывайте до ощущения растяжения в груди и возвращайте к центру. Локти держите разведенными, не «складывайте» руки к плечам. Движение плавное, без рывка. Основные мышцы: грудные, передняя дельта.",
+            },
+            {
+              name: "Жим лежа узким хватом",
+              sets: 4,
+              reps: "15",
+              img: "assets/day3/жим_лежа_узким_хватом.jpg",
+              description:
+                "Хват уже плеч, кисти ровные. Локти прижаты к корпусу и смотрят прямо. Опускайте максимально вниз и выжимайте вверх, без разведения локтей. Основной акцент — трицепс. Основные мышцы: трицепсы, грудные.",
+            },
+            {
+              name: "Трицепс на блоке с канатом",
+              sets: 3,
+              reps: "20",
+              img: "assets/day3/трицепс_на_блоке_с_канатом_французский_жим_лежа.jpg",
+              description:
+                "Локти прижаты к корпусу и почти не двигаются, движение только в локтевом суставе. На выдохе разгибайте руки вниз с прожимом трицепса, на вдохе плавно возвращайте канат вверх без рывка. Плечи не поднимайте, корпус держите стабильным. Основные мышцы: трицепсы.",
+            },
+            {
+              name: "Французский жим лежа",
+              sets: 3,
+              reps: "20",
+              img: "assets/day3/трицепс_на_блоке_с_канатом_французский_жим_лежа.jpg",
+              description:
+                "Лежа на скамье удерживайте локти направленными вверх и близко друг к другу, не разводите их в стороны. Сгибайте руки в локтях, опуская вес к уровню лба или чуть за голову, затем разгибайте обратно вверх. Движение выполняйте медленно и под контролем, без инерции. Основные мышцы: трицепсы.",
+            },
+            {
+              name: "Бицепс молот с гантелями",
+              sets: 3,
+              reps: "15",
+              img: "assets/day3/бицепс_молот_с_гантелями.jpg",
+              description:
+                "Нейтральный хват, как «молот». Работайте поочередно: подняли, прожали бицепс, медленно опустили до полного растяжения. Не торопитесь, локти держите рядом с корпусом. Основные мышцы: бицепс, брахиалис, предплечья.",
+            },
+            {
+              name: "Разгибания с гантелями стоя в наклоне на трицепс",
+              sets: 3,
+              reps: "20",
+              img: "assets/day3/разгибания_с_гантелями_стоя_в_наклоне_на_трицепс.jpg",
+              description:
+                "Встаньте и наклонитесь вперед примерно на 45 градусов, ноги на ширине плеч, слегка согните колени. Спина должна быть параллельна полу или близка к этому. Гантель в одной руке, локоть согнут примерно на 90 градусов, плечо параллельно полу. На выдохе полностью разогните локоть, направляя гантель назад, пока рука не выпрямится полностью. На вдохе медленно верните гантель в исходное положение. Локоть остается в одном положении, движение только в локтевом суставе. Основные мышцы: трицепсы (особенно латеральная и медиальная головки).",
+            },
+            {
+              name: "Ножницы (поочередный подъем ног до 90°)",
+              sets: 2,
+              reps: 25,
+              img: "assets/day3/складочка_подъем_прямых_ног_скручивания_до_лопаток_ножницы.jpg",
+              description:
+                "Лягте на спину, поясница прижата к полу, руки вдоль тела. Поочередно поднимайте прямую ногу до 90° к полу, вторую держите на весу и меняйте ноги в ритме «ножниц». Спину не отрывайте, движение контролируйте, шея расслаблена. Основные мышцы: нижняя часть пресса.",
+            },
+          ],
+        },
+        4: {
+          title: "#4 Ноги/плечи",
+          warmup: "Суставная гимнастика, приседания без веса 50 раз",
+          exercises: [
+            {
+              name: "Приседания с гантелью в узкой постановке ног",
+              sets: 4,
+              reps: "15",
+              img: "assets/day4/приседания_с_гантелью_в_узкой_постановке_ног.jpg",
+              description:
+                "Поставьте ноги на ширину одной-двух ладоней друг от друга, носки направлены вперед или слегка врозь. Держите гантель перед грудью обеими руками или по одной в каждой руке. Спина прямая, корпус напряжен. Согните колени и опустите вес, сохраняя вертикальное положение туловища. Колени движутся стабильно вдоль носков. Основные мышцы: квадрицепсы, внешняя поверхность бедра, ягодицы.",
+            },
+            {
+              name: "Приседания фронтальные",
+              sets: 5,
+              reps: "15",
+              img: "assets/day4/приседания_фронтальные.jpg",
+              description:
+                "Встаньте прямо, ноги на ширине плеч или чуть шире, носки развернуты наружу на 10-15 градусов. Штанга расположена на уровне верхней части груди, руки согнуты так, чтобы плечо было параллельно полу, локти смотрят вверх. Движение вниз начинается с сгибания в тазобедренных и коленных суставах. Спина сохраняется прямой, грудь расправлена, взгляд направлен вперед. Центр тяжести проходит через середину стопы. Основные мышцы: квадрицепсы, ягодицы, передние дельты.",
+            },
+            {
+              name: "Выпады с гантелями вперед с места",
+              sets: 4,
+              reps: "15",
+              img: "assets/day4/выпады_с_гантелями_вперед_с_места.jpg",
+              description:
+                "Встаньте прямо, ноги на ширине таза, гантели в вытянутых руках по сторонам. На вдохе сделайте широкий шаг ногой вперед, согните оба колена под углом 90 градусов. Переднее колено находится над пяткой, заднее колено почти касается пола. Спина вертикальна с легким прогибом в пояснице, грудь поднята. На выдохе вернитесь в исходное положение. Основные мышцы: квадрицепсы, ягодицы, бицепсы бедра, мышцы кора.",
+            },
+            {
+              name: "Сисси-присед",
+              sets: 4,
+              reps: "15",
+              img: "assets/day4/сисси-присед.jpg",
+              description:
+                "Встаньте на ноги на ширине плеч и оторвите пятки от пола, встав на носки. Одной рукой возьмитесь за опору (стойку, дверной косяк или машину Смита). Спина остается прямой, корпус отклоняется максимально назад. На вдохе начните сгибать колени, опускаясь вниз. Угол в коленях не должен быть менее 90 градусов. Основные мышцы: квадрицепсы (четырехглавая мышца бедра).",
+            },
+            {
+              name: "Махи прямо перед собой с гантелями (поочередно)",
+              sets: 4,
+              reps: "20",
+              img: "assets/day4/махи_прямо_перед_собой_с_гантелями_поочередно.jpg",
+              description:
+                "Встаньте прямо, ноги на ширине плеч, гантели в руках, опущены вниз перед бедрами. Ладони могут быть направлены на бедра или нейтральным хватом. Локти слегка согнуты. На выдохе поднимите одну руку с гантелью вверх до положения, параллельного полу или чуть выше. Не сгибайте руку в локте, все движение в плечевом суставе. На вдохе опустите руку. Чередуйте руки. На вершине задержите снаряд на 1-2 секунды. Основные мышцы: передний пучок дельтовидной мышцы, верхняя часть груди.",
+            },
+            {
+              name: "Разводка стоя в стороны",
+              sets: 4,
+              reps: "20",
+              img: "assets/day1/махи_в_сторону_медленно_подконтрольно.jpg",
+              description:
+                "Встаньте прямо, ноги на ширине плеч, прижмите локти к телу. Гантели в руках опущены вниз, ладони направлены внутрь (нейтральный хват). На выдохе поднимите гантели в стороны до уровня плеч, держа руки почти прямыми или слегка согнутыми в локтях. В верхней точке задержитесь на секунду. На вдохе медленно опустите гантели в исходное положение. Корпус остается неподвижным, не прогибайтесь назад. Основные мышцы: средний пучок дельтовидной мышцы, верхние боковые дельты.",
+            },
+            {
+              name: "Жим сидя с гантелями",
+              sets: 4,
+              reps: "15",
+              img: "assets/day1/жим_плечами_сидя_стоя.jpg",
+              description:
+                "Сядьте на скамью с высокой спинкой, прижмите поясницу к спинке, создав небольшое естественное прогибание для защиты спины. Гантели держите в руках на уровне плеч, локти согнуты под углом близким к 90 градусам. На выдохе жимом поднимите гантели вертикально вверх, описывая легкую дугу. Гантели движутся в вертикальной плоскости. На вдохе медленно опустите гантели в исходное положение. Основные мышцы: передний и средний пучок дельтовидной мышцы, грудные мышцы, трицепсы.",
+            },
+            {
+              name: "Тяга Е-грифа к подбородку",
+              sets: 4,
+              reps: "15",
+              img: "assets/day4/тяга_е-грифа_к_подбородку_махи_с_канатом_перед_собой_в_кроссовере.jpg",
+              description:
+                "Возьмите EZ-гриф хватом сверху немного уже плеч, держите корпус ровно и пресс напряженным. Тяните гриф вдоль тела вверх до уровня груди/подбородка, поднимая локти в стороны и чуть выше кистей. Опускайте снаряд плавно без раскачки корпуса. Основные мышцы: средняя дельта, трапеции.",
+            },
+            {
+              name: "Махи с канатом перед собой в кроссовере",
+              sets: 4,
+              reps: "15",
+              img: "assets/day4/тяга_е-грифа_к_подбородку_махи_с_канатом_перед_собой_в_кроссовере.jpg",
+              description:
+                "Встаньте лицом к блоку, возьмите канат и сохраняйте небольшой наклон корпуса вперед. Поднимайте руки перед собой до уровня плеч, контролируя движение и не подключая поясницу. Опускайте канат медленно, сохраняя натяжение в плечах. Основные мышцы: передняя дельта, верх груди.",
+            },
+            {
+              name: "Сведение рук через стороны перед собой",
+              sets: 3,
+              reps: "15",
+              img: "assets/day4/сведение_рук_через_стороны_перед_собой.jpg",
+              description:
+                "Возьмите ручки кроссовера с верхних блоков обеими руками и встаньте посередине тренажера в положении выпада или с широкой постановкой ног. Корпус слегка наклонен вперед. Локти слегка согнуты и зафиксированы. На вдохе разводите руки через стороны по дуге до ощущения растяжения в груди. На выдохе сводите руки перед собой по дуге, сосредоточиваясь на сокращении грудных мышц. Делайте движение только за счет грудных мышц, плечи и руки минимально участвуют. Основные мышцы: грудные мышцы (большая и малая), передние дельты, трицепсы.",
+            },
+          ],
+        },
+        5: {
+          title: "#5 Спина/плечи",
+          warmup: "Суставная гимнастика",
+          exercises: [
+            {
+              name: "Подтягивания",
+              sets: 4,
+              reps: "12",
+              img: "assets/day5/подтягивания.jpg",
+              description:
+                "Повисните на турнике с полностью выпрямленными руками, хват сверху чуть шире плеч. Подтяните себя вверх, сгибая локти и отводя их в стороны, пока подбородок не поднимется выше турника. Сконцентрируйтесь на работе спины и лопаток, не полагаясь только на бицепсы. Медленно опуститесь в исходное положение, контролируя движение. Основные мышцы: широчайшие мышцы спины, бицепсы, средняя спина.",
+            },
+            {
+              name: "Тяга верхнего блока по одной руке",
+              sets: 4,
+              reps: "15",
+              img: "assets/day5/тяга_верхнего_блока_по_одной_руке.jpeg",
+              description:
+                "Сядьте в тренажер и возьмитесь одной рукой за рукоятку верхнего блока над головой. Спина прямая, плечи расслаблены. Тяните рукоятку вниз к бедру, приводя локоть к туловищу и сводя лопатку. Контролируйте движение в верхней точке, почувствуйте растяжение широчайшей мышцы. Медленно вернитесь в исходное положение. Выполните все повторения на одну руку, затем повторите на другую. Основные мышцы: широчайшие мышцы спины, бицепсы, средняя спина.",
+            },
+            {
+              name: "Тяга нижнего блока параллельным широким хватом",
+              sets: 4,
+              reps: "15",
+              img: "assets/day2/тяга_нижнего_блока_к_поясу.jpg",
+              description:
+                "Сядьте в тренажер, держите спину ровной и грудь раскрытой. Тяните рукоять к животу, уводя локти назад и сводя лопатки в конце амплитуды. Возвращайте рукоять вперед медленно, не теряя контроль и натяжение мышц спины. Основные мышцы: широчайшие, ромбовидные, средняя часть трапеций.",
+            },
+            {
+              name: "Тяга гантели в наклоне к поясу",
+              sets: 4,
+              reps: "15",
+              img: "assets/day2/тяга_штанги_в_наклоне_к_поясу_обратным_хватом.jpg",
+              description:
+                "Наклоните корпус вперед с нейтральной спиной и зафиксируйте положение. Тяните гантель к поясу за счет приведения локтя назад, не разворачивая корпус. В верхней точке кратко сведите лопатку, затем опустите вес под контролем. Основные мышцы: широчайшие, ромбовидные, задняя дельта, бицепс.",
+            },
+            {
+              name: "Наклоны со штангой",
+              sets: 3,
+              reps: "20",
+              img: "assets/day5/наклоны_со_штангой.jpg",
+              description:
+                "Положите штангу на верхнюю часть спины, ноги на ширине плеч. Ядро напрягите, спину держите прямой. Наклоняйтесь вперед в бедрах, отводя ягодицы назад, пока торс не станет параллелен полу. Колени держите слегка согнутыми. Почувствуйте растяжение в задней части ног. Вернитесь в исходное положение, выпрямляя бедра и сжимая ягодицы. Движение медленное и контролируемое. Основные мышцы: выпрямители спины, ягодицы, бицепсы бедра.",
+            },
+            {
+              name: "Разводка в стороны",
+              sets: 3,
+              reps: "20",
+              img: "assets/day5/разводка_в_стороны_разводка_в_наклоне.jpg",
+              description:
+                "Стойка ровная, руки с гантелями по бокам, локти слегка согнуты. Поднимайте гантели в стороны до линии плеч без рывков и без подъема плеч к ушам. Опускайте плавно, сохраняя контроль амплитуды. Основные мышцы: средняя дельта.",
+            },
+            {
+              name: "Разводка в наклоне",
+              sets: 3,
+              reps: "20",
+              img: "assets/day5/разводка_в_стороны_разводка_в_наклоне.jpg",
+              description:
+                "Наклоните корпус почти до параллели с полом, спину держите нейтральной, колени слегка согнуты. Разводите гантели в стороны по широкой дуге до уровня плеч, акцентируя работу задней дельты. Опускайте руки медленно без раскачки корпуса. Основные мышцы: задняя дельта, ромбовидные, средняя часть трапеций.",
+            },
+            {
+              name: "Разводка в стороны на наклонной скамье 30 градусов",
+              sets: 3,
+              reps: "20",
+              img: "assets/day5/разводка_в_стороны_на_наклонной_скамье_30_градусов.jpg",
+              description:
+                "Установите скамью под углом 30 градусов и лягте на нее грудью, головой выше ягодиц. Возьмите гантели нейтральным хватом (ладони обращены друг к другу), руки слегка согнуты в локтях, начальная позиция - гантели висят перед грудью. Поднимайте гантели в стороны и назад в широкой дуге, пока руки не станут параллельны полу. Сожмите задние дельты и верхнюю спину в верхней точке. Медленно вернитесь в исходное положение, контролируя движение. Основные мышцы: задняя дельта, средняя спина, ромбовидные мышцы.",
+            },
+          ],
+        },
+      };
 
-        // Workout Tabs Component
-        class WorkoutTabs extends HTMLElement {
-            constructor() {
-                super();
-                this.attachShadow({ mode: 'open' });
-                const template = document.getElementById('workout-tabs-template');
-                this.shadowRoot.appendChild(template.content.cloneNode(true));
-            }
-
-            connectedCallback() {
-                // Generate tabs from workoutData
-                const tabsContainer = this.shadowRoot.getElementById('tabs-container');
-
-                Object.keys(workoutData).forEach((id, index) => {
-                    const data = workoutData[id];
-                    const button = document.createElement('button');
-                    button.className = index === 0 ? 'tab active' : 'tab';
-                    button.dataset.tab = `workout${id}`;
-                    button.textContent = data.title;
-
-                    tabsContainer.appendChild(button);
-
-                    button.addEventListener('click', () => {
-                        this.switchTab(`workout${id}`);
-                        window.history.pushState(null, '', `#${id}`);
-                    });
-                });
-
-                // Handle URL hash on load
-                window.addEventListener('hashchange', () => {
-                    this.handleHashChange();
-                });
-
-                // Set initial tab from hash
-                this.handleHashChange();
-            }
-
-            handleHashChange() {
-                const hash = window.location.hash.slice(1);
-                const workoutNum = hash || '1';
-                const targetId = `workout${workoutNum}`;
-
-                const tabs = this.shadowRoot.querySelectorAll('.tab');
-                const contents = this.shadowRoot.querySelectorAll('.tab-content');
-
-                tabs.forEach(t => {
-                    if (t.dataset.tab === targetId) {
-                        t.classList.add('active');
-                    } else {
-                        t.classList.remove('active');
-                    }
-                });
-
-                contents.forEach(content => {
-                    if (content.id === targetId) {
-                        content.classList.add('active');
-                    } else {
-                        content.classList.remove('active');
-                    }
-                });
-            }
-
-            switchTab(targetId) {
-                const tabs = this.shadowRoot.querySelectorAll('.tab');
-                const contents = this.shadowRoot.querySelectorAll('.tab-content');
-
-                tabs.forEach(t => t.classList.remove('active'));
-                contents.forEach(c => c.classList.remove('active'));
-
-                const tab = this.shadowRoot.querySelector(`[data-tab="${targetId}"]`);
-                const content = this.shadowRoot.getElementById(targetId);
-
-                if (tab) tab.classList.add('active');
-                if (content) content.classList.add('active');
-            }
+      const normalizeExerciseDescription = (description) => {
+        const value = (description || "").trim();
+        if (!value) {
+          return "";
         }
 
-        // Workout Detail Component
-        class WorkoutDetail extends HTMLElement {
-            constructor() {
-                super();
-                this.attachShadow({ mode: 'open' });
-                const template = document.getElementById('workout-detail-template');
-                this.shadowRoot.appendChild(template.content.cloneNode(true));
-            }
+        const marker = "Основные мышцы:";
+        const markerIndex = value.indexOf(marker);
 
-            connectedCallback() {
-                const workoutId = this.getAttribute('workout-id');
-                const data = workoutData[workoutId];
-
-                this.shadowRoot.querySelector('.workout-title').textContent = data.title;
-                this.shadowRoot.querySelector('.warmup-text').textContent = data.warmup;
-
-                // Render exercises
-                this.renderExercises(data.exercises);
-            }
-
-            renderExercises(exercises) {
-                const exercisesList = this.shadowRoot.querySelector('.exercises-list');
-                exercises.forEach(exercise => {
-                    const row = document.createElement('exercise-row');
-                    row.setAttribute('name', exercise.name);
-                    row.setAttribute('sets', exercise.sets);
-                    row.setAttribute('reps', exercise.reps);
-                    row.setAttribute('img', exercise.img);
-                    row.setAttribute('description', exercise.description);
-                    exercisesList.appendChild(row);
-                });
-            }
+        if (markerIndex === -1) {
+          return `Техника: ${value}`;
         }
 
-        // Exercise Row Component
-        class ExerciseRow extends HTMLElement {
-            constructor() {
-                super();
-                this.attachShadow({ mode: 'open' });
-                const template = document.getElementById('exercise-row-template');
-                this.shadowRoot.appendChild(template.content.cloneNode(true));
-                this.isOpen = false;
-            }
+        const techniquePart = value
+          .slice(0, markerIndex)
+          .trim()
+          .replace(/\s+/g, " ");
+        const musclesPart = value
+          .slice(markerIndex + marker.length)
+          .trim()
+          .replace(/\s+/g, " ");
 
-            connectedCallback() {
-                const name = this.getAttribute('name');
-                const sets = this.getAttribute('sets');
-                const reps = this.getAttribute('reps');
-                const img = this.getAttribute('img') || '';
-                const description = this.getAttribute('description') || '';
+        return `Техника: ${techniquePart}\nОсновные мышцы: ${musclesPart}`;
+      };
 
-                const nameElement = this.shadowRoot.querySelector('.exercise-name');
-                nameElement.textContent = name;
-
-                const notationElement = this.shadowRoot.querySelector('.exercise-notation');
-                notationElement.textContent = `${sets}x${reps}`;
-
-                const imgElement = this.shadowRoot.querySelector('.exercise-image');
-                if (img) {
-                    imgElement.src = img;
-                }
-
-                const descriptionElement = this.shadowRoot.querySelector('.exercise-technique');
-                descriptionElement.textContent = description;
-
-                const exerciseRow = this.shadowRoot.querySelector('.exercise-row');
-                const descriptionContainer = this.shadowRoot.querySelector('.exercise-description');
-
-                exerciseRow.addEventListener('click', () => {
-                    this.isOpen = !this.isOpen;
-                    descriptionContainer.classList.toggle('open', this.isOpen);
-                });
-            }
+      // Workout Tabs Component
+      class WorkoutTabs extends HTMLElement {
+        constructor() {
+          super();
+          this.attachShadow({ mode: "open" });
+          const template = document.getElementById("workout-tabs-template");
+          this.shadowRoot.appendChild(template.content.cloneNode(true));
         }
 
-        customElements.define('workout-tabs', WorkoutTabs);
-        customElements.define('workout-detail', WorkoutDetail);
-        customElements.define('exercise-row', ExerciseRow);
+        connectedCallback() {
+          // Generate tabs from workoutData
+          const tabsContainer =
+            this.shadowRoot.getElementById("tabs-container");
 
-        const restWidget = document.getElementById('rest-widget');
-        const restPlus = document.getElementById('rest-plus');
-        const restReset = document.getElementById('rest-reset');
-        const restCount = document.getElementById('rest-count');
-        const restTimer = document.getElementById('rest-timer');
-        const restFlash = document.getElementById('rest-flash');
+          Object.keys(workoutData).forEach((id, index) => {
+            const data = workoutData[id];
+            const button = document.createElement("button");
+            button.className = index === 0 ? "tab active" : "tab";
+            button.dataset.tab = `workout${id}`;
+            button.textContent = data.title;
 
-        let reps = 0;
-        let timerId = null;
-        let remainingSeconds = 90;
+            tabsContainer.appendChild(button);
 
-        const formatTime = (seconds) => {
-            const mins = Math.floor(seconds / 60);
-            const secs = seconds % 60;
-            return `${String(mins).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
-        };
+            button.addEventListener("click", () => {
+              this.switchTab(`workout${id}`);
+              window.history.pushState(null, "", `#${id}`);
+            });
+          });
 
-        const updateTimerText = () => {
-            restTimer.textContent = `Rest ${formatTime(remainingSeconds)}`;
-        };
+          // Handle URL hash on load
+          window.addEventListener("hashchange", () => {
+            this.handleHashChange();
+          });
 
-        const setDoneState = () => {
-            restTimer.textContent = 'Rest done';
-            restTimer.classList.add('done');
-        };
+          // Set initial tab from hash
+          this.handleHashChange();
+        }
 
-        const triggerFlash = () => {
-            restFlash.classList.remove('show');
-            void restFlash.offsetHeight;
-            restFlash.classList.add('show');
-        };
+        handleHashChange() {
+          const hash = window.location.hash.slice(1);
+          const workoutNum = hash || "1";
+          const targetId = `workout${workoutNum}`;
 
-        const startRestTimer = () => {
-            remainingSeconds = 90;
-            restTimer.classList.remove('done');
-            updateTimerText();
-            if (timerId) {
-                clearInterval(timerId);
+          const tabs = this.shadowRoot.querySelectorAll(".tab");
+          const contents = this.shadowRoot.querySelectorAll(".tab-content");
+
+          tabs.forEach((t) => {
+            if (t.dataset.tab === targetId) {
+              t.classList.add("active");
+            } else {
+              t.classList.remove("active");
             }
-            timerId = setInterval(() => {
-                remainingSeconds -= 1;
-                if (remainingSeconds <= 0) {
-                    clearInterval(timerId);
-                    timerId = null;
-                    remainingSeconds = 0;
-                    setDoneState();
-                    triggerFlash();
-                    return;
-                }
-                updateTimerText();
-            }, 1000);
-        };
+          });
 
-        const updateReps = () => {
-            restCount.textContent = `Reps: ${reps}`;
-        };
-
-        restPlus.addEventListener('click', () => {
-            reps += 1;
-            updateReps();
-            startRestTimer();
-        });
-
-        restReset.addEventListener('click', () => {
-            reps = 0;
-            updateReps();
-            if (timerId) {
-                clearInterval(timerId);
-                timerId = null;
+          contents.forEach((content) => {
+            if (content.id === targetId) {
+              content.classList.add("active");
+            } else {
+              content.classList.remove("active");
             }
-            remainingSeconds = 90;
-            restTimer.classList.remove('done');
-            updateTimerText();
-        });
+          });
+        }
 
-        restWidget.addEventListener('dblclick', () => {
-            reps += 1;
-            updateReps();
-            startRestTimer();
-        });
+        switchTab(targetId) {
+          const tabs = this.shadowRoot.querySelectorAll(".tab");
+          const contents = this.shadowRoot.querySelectorAll(".tab-content");
+
+          tabs.forEach((t) => t.classList.remove("active"));
+          contents.forEach((c) => c.classList.remove("active"));
+
+          const tab = this.shadowRoot.querySelector(`[data-tab="${targetId}"]`);
+          const content = this.shadowRoot.getElementById(targetId);
+
+          if (tab) tab.classList.add("active");
+          if (content) content.classList.add("active");
+        }
+      }
+
+      // Workout Detail Component
+      class WorkoutDetail extends HTMLElement {
+        constructor() {
+          super();
+          this.attachShadow({ mode: "open" });
+          const template = document.getElementById("workout-detail-template");
+          this.shadowRoot.appendChild(template.content.cloneNode(true));
+        }
+
+        connectedCallback() {
+          const workoutId = this.getAttribute("workout-id");
+          const data = workoutData[workoutId];
+
+          this.shadowRoot.querySelector(".workout-title").textContent =
+            data.title;
+          this.shadowRoot.querySelector(".warmup-text").textContent =
+            data.warmup;
+
+          // Render exercises
+          this.renderExercises(data.exercises);
+        }
+
+        renderExercises(exercises) {
+          const exercisesList =
+            this.shadowRoot.querySelector(".exercises-list");
+          exercises.forEach((exercise) => {
+            const row = document.createElement("exercise-row");
+            row.setAttribute("name", exercise.name);
+            row.setAttribute("sets", exercise.sets);
+            row.setAttribute("reps", exercise.reps);
+            row.setAttribute("img", exercise.img);
+            row.setAttribute("description", exercise.description);
+            exercisesList.appendChild(row);
+          });
+        }
+      }
+
+      // Exercise Row Component
+      class ExerciseRow extends HTMLElement {
+        constructor() {
+          super();
+          this.attachShadow({ mode: "open" });
+          const template = document.getElementById("exercise-row-template");
+          this.shadowRoot.appendChild(template.content.cloneNode(true));
+          this.isOpen = false;
+        }
+
+        connectedCallback() {
+          const name = this.getAttribute("name");
+          const sets = this.getAttribute("sets");
+          const reps = this.getAttribute("reps");
+          const img = this.getAttribute("img") || "";
+          const description = this.getAttribute("description") || "";
+
+          const nameElement = this.shadowRoot.querySelector(".exercise-name");
+          nameElement.textContent = name;
+
+          const notationElement =
+            this.shadowRoot.querySelector(".exercise-notation");
+          notationElement.textContent = `${sets}x${reps}`;
+
+          const imgElement = this.shadowRoot.querySelector(".exercise-image");
+          if (img) {
+            imgElement.src = img;
+          }
+
+          const descriptionElement = this.shadowRoot.querySelector(
+            ".exercise-technique",
+          );
+          descriptionElement.textContent =
+            normalizeExerciseDescription(description);
+
+          const exerciseRow = this.shadowRoot.querySelector(".exercise-row");
+          const descriptionContainer = this.shadowRoot.querySelector(
+            ".exercise-description",
+          );
+
+          exerciseRow.addEventListener("click", () => {
+            this.isOpen = !this.isOpen;
+            descriptionContainer.classList.toggle("open", this.isOpen);
+          });
+        }
+      }
+
+      customElements.define("workout-tabs", WorkoutTabs);
+      customElements.define("workout-detail", WorkoutDetail);
+      customElements.define("exercise-row", ExerciseRow);
+
+      const restWidget = document.getElementById("rest-widget");
+      const restPlus = document.getElementById("rest-plus");
+      const restReset = document.getElementById("rest-reset");
+      const restCount = document.getElementById("rest-count");
+      const restTimer = document.getElementById("rest-timer");
+      const restFlash = document.getElementById("rest-flash");
+
+      const REST_DURATION_SECONDS = 90;
+      const REST_START_TS_KEY = "train.restStartTimestamp";
+
+      let reps = 0;
+      let timerId = null;
+      let remainingSeconds = REST_DURATION_SECONDS;
+      let restStartTimestamp = null;
+      let audioCtx = null;
+
+      const formatTime = (seconds) => {
+        const mins = Math.floor(seconds / 60);
+        const secs = seconds % 60;
+        return `${String(mins).padStart(2, "0")}:${String(secs).padStart(2, "0")}`;
+      };
+
+      const updateTimerText = () => {
+        restTimer.textContent = `Rest ${formatTime(remainingSeconds)}`;
+      };
+
+      const setDoneState = () => {
+        restTimer.textContent = "Rest done";
+        restTimer.classList.add("done");
+      };
+
+      const getAudioContext = () => {
+        if (!audioCtx) {
+          audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        }
+        if (audioCtx.state === "suspended") {
+          audioCtx.resume();
+        }
+        return audioCtx;
+      };
+
+      const playRestDoneBeep = () => {
+        try {
+          const ctx = getAudioContext();
+          const now = ctx.currentTime;
+          const beepOffsets = [0, 0.12];
+
+          beepOffsets.forEach((offset) => {
+            const start = now + offset;
+            const osc = ctx.createOscillator();
+            const gain = ctx.createGain();
+
+            osc.type = "sine";
+            osc.frequency.setValueAtTime(880, start);
+            gain.gain.setValueAtTime(0.0001, start);
+            gain.gain.exponentialRampToValueAtTime(0.14, start + 0.01);
+            gain.gain.exponentialRampToValueAtTime(0.0001, start + 0.16);
+
+            osc.connect(gain);
+            gain.connect(ctx.destination);
+
+            osc.start(start);
+            osc.stop(start + 0.18);
+          });
+        } catch (_) {
+          // Ignore audio errors on restricted devices.
+        }
+      };
+
+      const triggerFlash = () => {
+        restFlash.classList.remove("show");
+        void restFlash.offsetHeight;
+        restFlash.classList.add("show");
+      };
+
+      const getRemainingSecondsFromStart = () => {
+        if (!restStartTimestamp) {
+          return REST_DURATION_SECONDS;
+        }
+        const elapsedSeconds = Math.floor(
+          (Date.now() - restStartTimestamp) / 1000,
+        );
+        return Math.max(0, REST_DURATION_SECONDS - elapsedSeconds);
+      };
+
+      const clearStoredStartTimestamp = () => {
+        sessionStorage.removeItem(REST_START_TS_KEY);
+        restStartTimestamp = null;
+      };
+
+      const finishRest = () => {
+        if (timerId) {
+          clearInterval(timerId);
+          timerId = null;
+        }
+        remainingSeconds = 0;
+        clearStoredStartTimestamp();
+        setDoneState();
+        triggerFlash();
+        playRestDoneBeep();
+      };
+
+      const syncTimerFromStartTimestamp = () => {
+        if (!restStartTimestamp) {
+          return;
+        }
+
+        remainingSeconds = getRemainingSecondsFromStart();
+        if (remainingSeconds <= 0) {
+          finishRest();
+          return;
+        }
+
+        restTimer.classList.remove("done");
+        updateTimerText();
+      };
+
+      const startTimerLoop = () => {
+        if (timerId) {
+          clearInterval(timerId);
+        }
+
+        syncTimerFromStartTimestamp();
+
+        timerId = setInterval(() => {
+          syncTimerFromStartTimestamp();
+        }, 500);
+      };
+
+      const startRestTimer = () => {
+        restStartTimestamp = Date.now();
+        sessionStorage.setItem(REST_START_TS_KEY, String(restStartTimestamp));
+        remainingSeconds = REST_DURATION_SECONDS;
+        restTimer.classList.remove("done");
+        updateTimerText();
+        startTimerLoop();
+      };
+
+      const updateReps = () => {
+        restCount.textContent = `Reps: ${reps}`;
+      };
+
+      restPlus.addEventListener("click", () => {
+        reps += 1;
+        updateReps();
+        getAudioContext();
+        startRestTimer();
+      });
+
+      restReset.addEventListener("click", () => {
+        reps = 0;
+        updateReps();
+        if (timerId) {
+          clearInterval(timerId);
+          timerId = null;
+        }
+        remainingSeconds = REST_DURATION_SECONDS;
+        clearStoredStartTimestamp();
+        restTimer.classList.remove("done");
+        updateTimerText();
+      });
+
+      restWidget.addEventListener("dblclick", () => {
+        reps += 1;
+        updateReps();
+        getAudioContext();
+        startRestTimer();
+      });
+
+      document.addEventListener("visibilitychange", () => {
+        if (!document.hidden && restStartTimestamp) {
+          syncTimerFromStartTimestamp();
+        }
+      });
+
+      const storedStartTimestamp = Number(
+        sessionStorage.getItem(REST_START_TS_KEY),
+      );
+      if (Number.isFinite(storedStartTimestamp) && storedStartTimestamp > 0) {
+        restStartTimestamp = storedStartTimestamp;
+        if (getRemainingSecondsFromStart() <= 0) {
+          clearStoredStartTimestamp();
+          remainingSeconds = 0;
+          setDoneState();
+        } else {
+          startTimerLoop();
+        }
+      } else {
+        updateTimerText();
+      }
     </script>
-</body>
+  </body>
 </html>
